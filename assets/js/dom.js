@@ -1,4 +1,7 @@
+/* eslint-disable object-curly-newline */
 export let moviesList = null;
+export let inputSearch = null;
+export let triggerMode = false;
 
 const createElement = ({type,
   attrs = {},
@@ -15,6 +18,7 @@ const createElement = ({type,
 
   if (container && position === 'append') container.append(el);
   if (container && position === 'prepend') container.prepend(el);
+  if (event && handler && typeof handler === 'function') el.addEventListener(event, handler);
 
   return el;
 };
@@ -91,7 +95,7 @@ export const createStyle = () => {
 export const createMarkup = () => {
   const container = createElement({
     type: 'div',
-    attrs:{class: 'container'},
+    attrs: {class: 'container'},
     container: document.body,
     position: 'prepend'});
 
@@ -130,7 +134,7 @@ export const createMarkup = () => {
     container: inputBox
   });
 
-  createElement({
+  inputSearch = createElement({
     type: 'input',
     attrs: {
       class: 'search__input',
@@ -149,7 +153,9 @@ export const createMarkup = () => {
       id: 'checkbox',
       type: 'checkbox'
     },
-    container: checkBox
+    container: checkBox,
+    event: 'click',
+    handler: () => triggerMode = !triggerMode
   });
 
   createElement({
@@ -166,12 +172,12 @@ export const createMarkup = () => {
     type: 'div',
     attrs: {class: 'movies'},
     container});
- 
+
 
   moviesList = document.querySelector('.movies');
-}
+};
 
-export const addMoviesToList = (movie) => {
+export const addMoviesToList = (m) => {
   const item = createElement({
     type: 'div',
     attrs: {class: 'movie'},
@@ -183,10 +189,13 @@ export const addMoviesToList = (movie) => {
     type: 'img',
     attrs: {
       class: 'movie__image',
-      src: /^(http|https):\/\//i.test(movie.Poster) ? movie.Poster : 'assets/',
-      alt: `${movie.Title} ${movie.Year}`,
-      title: `${movie.Title} ${movie.Year}`
+      src: /^(http|https):\/\//i.test(m.Poster)
+        ? m.Poster : 'assets/img/No_image_available.svg.png',
+      alt: `${m.Title} ${m.Year}`,
+      title: `${m.Title} ${m.Year}`
     },
     container: item
   });
 };
+
+export const clearMoviesMarkup = (el) => el && (el.innerHTML = '');
