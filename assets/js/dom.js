@@ -1,22 +1,22 @@
 export let moviesList = null;
 
 const createElement = ({type,
-   attrs = {},
-    container = null,
-     position = 'append',
-      event = null,
-       handler = null}) => {
+  attrs = {},
+  container = null,
+  position = 'append',
+  event = null,
+  handler = null}) => {
   const el = document.createElement(type);
 
-Object.keys(attrs).forEach((key) => {
-if (key === 'innerHTML') el.innerHTML = attrs[key];
-else el.setAttribute(key, attrs[key]);
-});
+  Object.keys(attrs).forEach((key) => {
+    if (key === 'innerHTML') el.innerHTML = attrs[key];
+    else el.setAttribute(key, attrs[key]);
+  });
 
-if (container && position === 'append') container.append(el);
-if (container && position === 'prepend') container.prepend(el);
+  if (container && position === 'append') container.append(el);
+  if (container && position === 'prepend') container.prepend(el);
 
-return el;
+  return el;
 };
 
 export const createStyle = () => {
@@ -95,77 +95,77 @@ export const createMarkup = () => {
     container: document.body,
     position: 'prepend'});
 
-createElement({
-  type: 'h1',
-  attrs: {innerHTML: 'Приложение для поиска фильма'},
-  container
-});
-
-const searchBox = createElement({
-  type: 'div',
-  attrs: {class: 'search'},
-  container
-});
-
-const inputBox = createElement({
-  type: 'div',
-  attrs: {class: 'search__group search__group--input' },
-  container: searchBox
-});
-
-const checkBox = createElement({
-  type: 'div',
-  attrs: {class: 'search__group search__group--checkbox' },
-  container: searchBox
-});
-
-
-createElement({
-type: 'label',
-attrs: {
-  class: 'search__label-input',
-  for: 'search',
-  innerHTML: 'Текст для поиска'
-},
-container: inputBox
-});
-
-createElement({
-type: 'input',
-attrs: {
-  class: 'search__input',
-  id: 'search',
-  type: 'search',
-   placeholder: 'Введите название...'
-},
-container: inputBox
-});
-
-
-createElement({
-  type: 'input',
-  attrs: {
-    class: 'search__checkbox',
-    id: 'checkbox',
-    type: 'checkbox'
-  },
-  container: checkBox
+  createElement({
+    type: 'h1',
+    attrs: {innerHTML: 'Приложение для поиска фильма'},
+    container
   });
 
-createElement({
-  type: 'label',
-  attrs: {
-    class: 'search__label-checkbox',
-    for: 'checkbox',
-    innerHTML: 'Добавлять фильмы к существующему списку'
-  },
-  container: searchBox
+  const searchBox = createElement({
+    type: 'div',
+    attrs: {class: 'search'},
+    container
   });
 
-createElement({
-  type: 'div',
-  attrs: {class: 'movies'},
-  container});
+  const inputBox = createElement({
+    type: 'div',
+    attrs: {class: 'search__group search__group--input' },
+    container: searchBox
+  });
+
+  const checkBox = createElement({
+    type: 'div',
+    attrs: {class: 'search__group search__group--checkbox' },
+    container: searchBox
+  });
+
+
+  createElement({
+    type: 'label',
+    attrs: {
+      class: 'search__label-input',
+      for: 'search',
+      innerHTML: 'Текст для поиска'
+    },
+    container: inputBox
+  });
+
+  createElement({
+    type: 'input',
+    attrs: {
+      class: 'search__input',
+      id: 'search',
+      type: 'search',
+      placeholder: 'Введите название...'
+    },
+    container: inputBox
+  });
+
+
+  createElement({
+    type: 'input',
+    attrs: {
+      class: 'search__checkbox',
+      id: 'checkbox',
+      type: 'checkbox'
+    },
+    container: checkBox
+  });
+
+  createElement({
+    type: 'label',
+    attrs: {
+      class: 'search__label-checkbox',
+      for: 'checkbox',
+      innerHTML: 'Добавлять фильмы к существующему списку'
+    },
+    container: searchBox
+  });
+
+  createElement({
+    type: 'div',
+    attrs: {class: 'movies'},
+    container});
  
 
   moviesList = document.querySelector('.movies');
@@ -179,9 +179,14 @@ export const addMoviesToList = (movie) => {
     container: moviesList
   });
 
-  const img = document.createElement('img');
-  img.setAttribute('class', 'movie__image');
-  img.src = movie.Poster;
-  img.alt = `${movie.Title} ${movie.Year}`
-  item.append(img);
+  createElement({
+    type: 'img',
+    attrs: {
+      class: 'movie__image',
+      src: /^(http|https):\/\//i.test(movie.Poster) ? movie.Poster : 'assets/',
+      alt: `${movie.Title} ${movie.Year}`,
+      title: `${movie.Title} ${movie.Year}`
+    },
+    container: item
+  });
 };
